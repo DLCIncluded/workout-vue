@@ -1,61 +1,47 @@
 <template>
-  <div class="workout-container">
-    <div class="workout-container__workout-box" v-for="(workoutday,index) in workout" v-bind:key="index">
-      {{workoutday.name}}
-      <div class="workout-container__workout-box__sets">
-        <ul>
-          <li v-for="(reps,index) in workoutday.sets" v-bind:key="index">
-            {{ reps }}
-          </li>
-        </ul>
+  <Push v-if="today==1 || today==4"/>
+  <Pull v-if="today==2 || today==5"/>
+  <Legs v-if="today==3 || today==6"/>
+  <div class="container" v-if="today==0">
+    <errors title="Rest Day"/>
+    <div class="card mb-3">
+      <div class="card-header">
+        <p class="card-header-title has-text-white">Rest Day</p>
+      </div>
+      <div class="card-content">
+        <div class="content has-text-white">
+          Today is a rest day, enjoy!
+        </div>
       </div>
     </div>
-    {{ dayOfWeek }}
   </div>
 </template>
 
 <script>
+import Push from "../components/Push";
+import Pull from "../components/Pull";
+import Legs from "../components/Legs";
+
 export default {
-  data() {
+  data: function(){
     return {
-      workout: [
-        {
-          name: "bench",
-          sets: [
-            12, 12, 12
-          ]
-        },
-        {
-          name: "chest-fly",
-          sets: [
-            15, 12, 10
-          ]
-        }
-      ]
+      today: 1
     }
   },
-  computed: {
-    dayOfWeek(){
-      const currentDate = new Date();
-      const currentDay = currentDate.getDay();
-      const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-      return weekday[currentDay]
+  created:function() {
+    this.getDay();
+  },
+  components: {
+    Push,
+    Pull,
+    Legs
+  },
+  methods:{
+    getDay(){
+      var date = new Date();
+      var day = date.getDay();
+      this.today = day;
     }
   }
-  
 }
 </script>
-
-<style lang="scss" scoped>
-.workout-container {
-  display: flex;
-  flex-direction: column;
-
-  &__workout-box {
-    background-color: #9D9D9D;
-    padding:10px;
-    margin:10px auto;
-    width: 30%;
-  }
-}
-</style>
