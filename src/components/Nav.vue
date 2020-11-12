@@ -54,6 +54,12 @@
             <router-link to="/legs" class="navbar-item" @click="toggleNav()">
                 Legs
             </router-link>
+            <router-link to="/guided" class="navbar-item" @click="toggleNav()">
+                Guided
+            </router-link>
+            <router-link to="/create" class="navbar-item" @click="toggleNav()">
+                Create Custom
+            </router-link>
             <router-link to="/history" class="navbar-item" @click="toggleNav()">
                 History
             </router-link>

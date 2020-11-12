@@ -141,9 +141,34 @@
         </div>
         <div class="field">
           <label class="label has-text-white" for="weight">Weight</label>
-          <input class="input is-info" type="number" @focus="$event.target.select()" name="weight" v-model="currentlyEditing.weight"/>
+          <input class="input is-info" type="number" @focus="$event.target.select()" ref='weight' name="weight" v-model="currentlyEditing.weight"/>
         </div>
-        <!-- <button class="" @click="toggleModal()">Done</button> -->
+        
+        <div>
+          <button class="button is-info is-small" @click="toggleCalc" v-if="!showCalc">Weight Calc</button>
+          <p class="has-text-white" v-if="showCalc">Plate Calculator - assumes plate added per side</p>
+          <div v-if="showCalc" class="calc">
+            <div class="calc-buttons">
+              <button class="button is-info is-small mr-2" @click="addWeight(45)">Olympic Bar</button>
+              <button class="button is-info is-small mr-2" @click="addWeight(20)">PlanetFitness Bar</button>
+              <br><br>
+              <button class="button is-info is-small mr-2" @click="addWeight(90)">Add 45s</button>
+              <button class="button is-info is-small mr-2" @click="addWeight(50)">Add 25s</button>
+              <button class="button is-info is-small mr-2" @click="addWeight(20)">Add 10s</button>
+              <button class="button is-info is-small mr-2" @click="addWeight(10)">Add 5s</button>
+              <button class="button is-info is-small mr-2" @click="addWeight(5)">Add 2.5s</button>
+              <br><br>
+              <button class="button is-info is-small mr-2" @click="addWeight(-90)">Sub 45s</button>
+              <button class="button is-info is-small mr-2" @click="addWeight(-50)">Sub 25s</button>
+              <button class="button is-info is-small mr-2" @click="addWeight(-20)">Sub 10s</button>
+              <button class="button is-info is-small mr-2" @click="addWeight(-10)">Sub 5s</button>
+              <button class="button is-info is-small mr-2" @click="addWeight(-5)">Sub 2.5s</button>
+              <br><br>
+              <button class="button is-info is-small" @click="toggleCalc">Close</button>
+            </div>
+            <div class="title is-1 has-text-white calc-value" v-if="showCalc">={{plateCalc}}</div>
+          </div>
+        </div>
       </div>
       
       <div class="modal-card-foot">
@@ -164,6 +189,7 @@ export default {
       pageName: "Push",
       modalOpen:false,
       showDebug: false,
+      showCalc: false,
       benchpress: [
         {
           "reps":10,
@@ -264,7 +290,8 @@ export default {
       ],
       data: '',
       errorMsg: '',
-      successMsg: ''
+      successMsg: '',
+      plateCalc:0
     }
   },
   methods: {
@@ -282,10 +309,19 @@ export default {
     toggleDebug() {
       this.showDebug = !this.showDebug;
     },
+    toggleCalc() {
+      this.showCalc = !this.showCalc;
+    },
     toFormData(obj){
       var fd = new FormData();
       fd.append('data', JSON.stringify(obj));
       return fd;
+    },
+    addWeight(w){
+      this.plateCalc = this.plateCalc +w;
+      if(this.plateCalc < 0){
+        this.plateCalc = 0;
+      }
     },
     saveInfo(){
       var v = this;//this is out of scope set it as a variable
@@ -319,5 +355,8 @@ export default {
 </script>
 
 <style lang="scss">
-
+.calc{
+  display:flex;
+  justify-content: space-between;
+}
 </style>

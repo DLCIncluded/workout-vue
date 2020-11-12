@@ -114,44 +114,38 @@ export default {
 
     authCheck({ commit, dispatch }){
         // console.log("Has Token: "+!!localStorage.token)
+        console.log('checking auth...')
         commit('changeCheckingAuth', true)
         commit('setAuth', !!localStorage.token) 
+
         //set auth to true if we have a token but we need to verify if it is accurate. 
         //Currently the only way I can get this to work with out it auto logging out
         //its bad practice, but with the db being a bit slow it auto redirects before the check is returned
         if(localStorage.token){
             //we need to check to see if we have a token, if we do, we should attempt to relogin
-            
+            console.log('verifying token in local storage...')
 
-            axios.post("https://json.geoiplookup.io/").then(function(response){
-                // console.log(response.data)
-                // console.log(response.data.ip);
-                var ip = response.data.ip;
-                var fd = new FormData();
-                fd.append('username', localStorage.username);
-                fd.append('token', localStorage.token);
-                fd.append('expires', localStorage.expires);
-                fd.append('ip', ip);
-                fd.append('relogin', true);
+            var fd = new FormData();
+            fd.append('username', localStorage.username);
+            fd.append('token', localStorage.token);
+            fd.append('expires', localStorage.expires);
+            fd.append('relogin', true);
 
-                axios.post("workoutapi.php?action=login",fd).then(function(response){
-                    
-                    if(response.data.error){
-                        // console.log("token invalid");
-                        dispatch('logout', {type: 'error', msg: 'Session Invalid, please login again.'});
-                        commit('changeCheckingAuth', false)
-                    }else{
-                        // console.log("token valid");
-                        // console.log(response.data)                        
-                        commit('setAuth', true)
-                        commit('changeCheckingAuth', false)
-                    }
-                    
-                })
-            })
-
-
-            
+            axios.post("workoutapi.php?action=login",fd).then(function(response){
+                console.log('sending token to api')
+                if(response.data.error){
+                    // console.log("token invalid");
+                    console.log(response.data)
+                    dispatch('logout', {type: 'error', msg: 'Session Invalid, please login again.'});
+                    commit('changeCheckingAuth', false)
+                }else{
+                    // console.log("token valid");
+                    // console.log(response.data)                        
+                    commit('setAuth', true)
+                    commit('changeCheckingAuth', false)
+                }
+                
+            })            
         }else{
             commit('changeCheckingAuth', false)
         }
@@ -181,7 +175,6 @@ export default {
                 console.log(response.data.error);
                 commit('changeCheckingAuth', false)
             }else{
-                console.log("token valid");
                 console.log(response.data.message)                        
                 commit('setAuth', true)
                 commit('changeCheckingAuth', false)

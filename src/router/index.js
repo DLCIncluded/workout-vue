@@ -11,6 +11,8 @@ import Pull from '../views/Pullpage.vue'
 import Legs from '../views/Legspage.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import Guided from '../views/Guided.vue'
+import Createworkout from '../views/Createworkout.vue'
 import Test from '../views/Test.vue'
 import store from '../store/index'
 
@@ -99,6 +101,24 @@ const routes = [
     // component: () => import(/* webpackChunkName: "about" */ '../views/Workout.vue')
     component: Login,
     meta: {requiresUnAuth: true}
+  },
+  {
+    path: '/guided',
+    name: 'Guided',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    // component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: Guided
+  },
+  {
+    path: '/create',
+    name: 'Createworkout',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    // component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: Createworkout
   },
   {
     path: '/test',
