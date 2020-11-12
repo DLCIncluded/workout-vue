@@ -128,7 +128,7 @@
 
   </div>
 
-    <div class="container" v-if="cardioPrompt">
+  <div class="container" v-if="cardioPrompt">
     <errors title="Cardio" />
 
     <div class="card mb-3">
@@ -398,9 +398,6 @@ export default {
     goToHistory(){
       this.$router.replace('/history');
     },
-    toggleDebug() {
-      this.showDebug = !this.showDebug;
-    },
     saveCardio(){
       var v = this;
       var fd = new FormData();
@@ -426,8 +423,9 @@ export default {
           }, 1500); 
         }
       })
-
-
+    },
+    toggleDebug() {
+      this.showDebug = !this.showDebug;
     },
     saveInfo(){
       var v = this;
