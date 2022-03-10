@@ -1,5 +1,5 @@
 # workout-vue
-
+Currently Live at https://dlcincluded.com/
 This is a basic web app for tracking my workouts.
 
 ## Project setup
